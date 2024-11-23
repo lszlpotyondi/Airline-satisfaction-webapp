@@ -31,17 +31,9 @@ data['Type of Travel'] = data['Type of Travel'].map({'Personal Travel':1, 'Busin
     #le_TypeOfTravel_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
 
     #balanced sample:
-target_count = 250
-balanced_samples = []
 
-for class_label, group in data.groupby('satisfaction'):
-    sample_size = min(len(group), target_count)
-    balanced_samples.append(group.sample(n=sample_size))
-
-    balanced_df = pd.concat(balanced_samples).reset_index(drop=True)
-
-y_test= balanced_df["satisfaction"]
-X_test = balanced_df.drop('satisfaction', axis=1)
+y_test= data["satisfaction"]
+X_test = data('satisfaction', axis=1)
 
 
 
@@ -65,7 +57,7 @@ if st.session_state.done == 0:
     #le_TypeOfTravel_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
 
     #balanced sample:
-    target_count = 250
+    target_count = 25000
     balanced_samples = []
 
     for class_label, group in data.groupby('satisfaction'):
