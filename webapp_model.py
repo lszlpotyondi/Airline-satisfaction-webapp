@@ -71,7 +71,7 @@ st.title("AIRLINE SATISFACTION webapp")
 
 online_boarding = st.number_input('Online Boarding', min_value=0, max_value=5, value=5)
 clas = st.selectbox('Class', ['Eco', 'Eco Plus','Business',])
-type_of_travel = st.selectbox('Type of Travel', ['Personal Travel' 'Business travel'])
+type_of_travel = st.selectbox('Type of Travel', ['Personal Travel', 'Business travel'])
 inflight_entertainment = st.number_input('Inflight entertainment', min_value=0, max_value=5, value=5)
 seat_comfort = st.number_input('Seat comfort', min_value=0, max_value=5, value=5)
 cleanliness = st.number_input('Cleanliness', min_value=0, max_value=5, value=5)
