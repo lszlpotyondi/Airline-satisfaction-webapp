@@ -32,20 +32,25 @@ data['Type of Travel'] = label_encoder.fit_transform(data['Type of Travel'])
 le_TypeOfTravel_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
 
 #balanced sample:
-target_count = 250
-balanced_samples = []
+#target_count = 250
+#balanced_samples = []
+#
+#for class_label, group in data.groupby('satisfaction'):
+#    sample_size = min(len(group), target_count)
+#    balanced_samples.append(group.sample(n=sample_size, random_state=42))
+#
+#balanced_df = pd.concat(balanced_samples).reset_index(drop=True)
+#
+#y= balanced_df["satisfaction"]
+##balanced_df.drop('Introversion Score', axis=1)
+#X = balanced_df.drop('satisfaction', axis=1)
+#
+#X_train, X_test, y_train, y_test= train_test_split(X,y, test_size=0.2, random_state=42)
 
-for class_label, group in data.groupby('satisfaction'):
-    sample_size = min(len(group), target_count)
-    balanced_samples.append(group.sample(n=sample_size, random_state=42))
+features = data.drop('satisfaction', axis=1)
+target = data['satisfaction']
 
-balanced_df = pd.concat(balanced_samples).reset_index(drop=True)
-
-y= balanced_df["satisfaction"]
-#balanced_df.drop('Introversion Score', axis=1)
-X = balanced_df.drop('satisfaction', axis=1)
-
-X_train, X_test, y_train, y_test= train_test_split(X,y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.25, random_state=42)
 
 
 if st.session_state.done == 0:
@@ -109,7 +114,7 @@ st.write(f'Accuracy: {accuracy:.4f}')
 if st.button(f'More detailed description of {predicted_satisfaction}'):
     st.session_state.satisfaction_selected = predicted_satisfaction
 
-if 'personality_selected' in st.session_state:
+if 'satisfaction_selected' in st.session_state:
     st.markdown("### Description:")
     selected_satisfaction = st.session_state.satisfaction_selected
     st.write(personality_descriptions[selected_satisfaction])
