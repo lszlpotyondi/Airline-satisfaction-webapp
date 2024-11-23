@@ -20,6 +20,15 @@ data = pd.read_csv('test.csv')
 
     #'Online boarding', 'Class', 'Type of Travel', 'Inflight entertainment', 'Seat comfort', 'Cleanliness', 'Inflight wifi service', 'Baggage handling', 'Inflight service'
 data = data.drop(['Unnamed: 0','id','Gender','Customer Type','Age','Flight Distance','Departure/Arrival time convenient','Ease of Online booking','Gate location','Food and drink','On-board service','Leg room service','Checkin service','Departure Delay in Minutes','Arrival Delay in Minutes'], axis=1)
+data = data[data['Online boarding'] != 0]
+data = data[data['Inflight entertainment'] != 0]
+data = data[data['Seat comfort'] != 0]
+data = data[data['Cleanliness'] != 0]
+data = data[data['Inflight wifi service'] != 0]
+data = data[data['Baggage handling'] != 0]
+data = data[data['Inflight service'] != 0]
+
+
 
 data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
 data['Class'] = data['Class'].map({'Eco': 1, 'Eco Plus' :2,'Business': 0})
@@ -44,7 +53,13 @@ if st.session_state.done == 0:
 
     #'Online boarding', 'Class', 'Type of Travel', 'Inflight entertainment', 'Seat comfort', 'Cleanliness', 'Inflight wifi service', 'Baggage handling', 'Inflight service'
     data = data.drop(['Unnamed: 0','id','Gender','Customer Type','Age','Flight Distance','Departure/Arrival time convenient','Ease of Online booking','Gate location','Food and drink','On-board service','Leg room service','Checkin service','Departure Delay in Minutes','Arrival Delay in Minutes'], axis=1)
-
+    data = data[data['Online boarding'] != 0]
+    data = data[data['Inflight entertainment'] != 0]
+    data = data[data['Seat comfort'] != 0]
+    data = data[data['Cleanliness'] != 0]
+    data = data[data['Inflight wifi service'] != 0]
+    data = data[data['Baggage handling'] != 0]
+    data = data[data['Inflight service'] != 0]
 
     data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
     data['Class'] = data['Class'].map({'Eco': 1, 'Eco Plus' :2,'Business': 0})
@@ -59,7 +74,7 @@ if st.session_state.done == 0:
 
 
 
-    model = RandomForestClassifier(n_estimators=1000,max_depth=20)
+    model = RandomForestClassifier(n_estimators=100,max_depth=20)
     st.session_state.model = model.fit(X_train, y_train)
     joblib.dump(st.session_state.model, "random_forest.pkl")
     st.session_state.done = 1
@@ -81,15 +96,15 @@ st.title("AIRLINE SATISFACTION webapp")
 
 #'Online boarding', 'Class', 'Type of Travel', 'Inflight entertainment', 'Seat comfort', 'Cleanliness', 'Inflight wifi service', 'Baggage handling', 'Inflight service'
 
-online_boarding = st.number_input('Online Boarding', min_value=0, max_value=5, value=5)
+online_boarding = st.number_input('Online Boarding', min_value=1, max_value=5, value=5)
 clas = st.selectbox('Class', ['Eco', 'Eco Plus','Business',])
 type_of_travel = st.selectbox('Type of Travel', ['Personal Travel', 'Business travel'])
-inflight_entertainment = st.number_input('Inflight entertainment', min_value=0, max_value=5, value=5)
-seat_comfort = st.number_input('Seat comfort', min_value=0, max_value=5, value=5)
-cleanliness = st.number_input('Cleanliness', min_value=0, max_value=5, value=5)
-inflight_wifi_service = st.number_input('Inflight wifi service', min_value=0, max_value=5, value=5)
-baggage_handling = st.number_input('Baggage handling', min_value=0, max_value=5, value=5)
-inflight_service = st.number_input('Inflight service', min_value=0, max_value=5, value=5)
+inflight_entertainment = st.number_input('Inflight entertainment', min_value=1, max_value=5, value=5)
+seat_comfort = st.number_input('Seat comfort', min_value=1, max_value=5, value=5)
+cleanliness = st.number_input('Cleanliness', min_value=1, max_value=5, value=5)
+inflight_wifi_service = st.number_input('Inflight wifi service', min_value=1, max_value=5, value=5)
+baggage_handling = st.number_input('Baggage handling', min_value=1, max_value=5, value=5)
+inflight_service = st.number_input('Inflight service', min_value=1, max_value=5, value=5)
 
 #kapott adat átalakítása
 class_num = le_Class_mapping[clas]
