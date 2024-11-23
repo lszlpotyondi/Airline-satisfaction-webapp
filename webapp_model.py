@@ -1,5 +1,5 @@
 #webapp modellel
-#       python -m streamlit run webapp_model.py
+python -m streamlit run webapp_model.py
 import sklearn as sk
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
