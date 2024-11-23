@@ -17,7 +17,7 @@ if 'model' not in st.session_state:
         st.session_state.done = 0
 
 
-data = pd.read_csv("data.csv")
+data = pd.read_csv('train.csv')
 
 #'Online boarding', 'Class', 'Type of Travel', 'Inflight entertainment', 'Seat comfort', 'Cleanliness', 'Inflight wifi service', 'Baggage handling', 'Inflight service'
 data = data.drop(['Unnamed: 0','id','Gender','Customer Type','Age','Flight Distance','Departure/Arrival time convenient','Ease of Online booking','Gate location','Food and drink','On-board service','Leg room service','Checkin service','Departure Delay in Minutes','Arrival Delay in Minutes'], axis=1)
