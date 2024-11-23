@@ -84,15 +84,15 @@ class_num = le_Class_mapping[clas]
 type_of_travel_num = le_TypeOfTravel_mapping[type_of_travel]
 
 df = {
-    'Online boarding': [online_boarding],
-    'Class': [class_num],
     'Type of Travel': [type_of_travel_num],
-    'Inflight entertainment': [inflight_entertainment],
-    'Seat comfort': [seat_comfort],
-    'Cleanliness': [cleanliness],
+    'Class': [class_num],
     'Inflight wifi service': [inflight_wifi_service],
+    'Online boarding': [online_boarding],
+    'Seat comfort': [seat_comfort],
+    'Inflight entertainment': [inflight_entertainment],
     'Baggage handling': [baggage_handling],
-    'Inflight service': [inflight_service]
+    'Inflight service': [inflight_service],
+    'Cleanliness': [cleanliness]
 }
 df = pd.DataFrame(df)
 
