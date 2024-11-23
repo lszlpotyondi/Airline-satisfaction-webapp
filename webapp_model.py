@@ -64,8 +64,8 @@ if st.session_state.done == 0:
     joblib.dump(st.session_state.model, "random_forest_model.pkl")
     st.session_state.done = 1
 
-le_Class_mapping = {'Eco': 0, 'Eco Plus' :1,'Business': 2}
-le_TypeOfTravel_mapping = {'Personal Travel':0, 'Business travel':1}
+le_Class_mapping = {'Eco': 1, 'Eco Plus' :2,'Business': 0}
+le_TypeOfTravel_mapping = {'Personal Travel':1, 'Business travel':0}
 model = st.session_state.model
 y_pred = model.predict(X_test)
 
