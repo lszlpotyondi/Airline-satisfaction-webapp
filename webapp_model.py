@@ -92,7 +92,7 @@ y_pred = model.predict(X_test)
 model2 = load_model('my_model.keras')
 
 y_pred_prob2 = model.predict(X_test) 
-y_pred2 = np.argmax(y_pred_prob2, axis=1)
+y_pred2 = (y_pred_prob2 >= 0.5).astype(int)
 prediction_dict = ['Neutral or dissatisfied','Satisfied']
 
 personality_descriptions = {
@@ -137,7 +137,7 @@ df = pd.DataFrame(df)
 #ai gondolkodik és kitalálja hogy:
 prediction = model.predict(df)
 prediction_prob2 = model.predict(df) 
-prediction2 = np.argmax(prediction_prob2, axis=1)
+prediction2 = (prediction_prob2 >= 0.5).astype(int)
 predicted_satisfaction = prediction_dict[prediction[0]]
 predicted_satisfaction2 = prediction_dict[prediction2[0]]
 
