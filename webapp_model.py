@@ -14,9 +14,18 @@ import streamlit as st
 if 'model' not in st.session_state:
     try:
         st.session_state.model = joblib.load("random_forest.pkl")
+
         st.session_state.done = 1
     except FileNotFoundError:
         st.session_state.done = 0
+
+if 'model2' not in st.session_state:
+    try:
+        st.session_state.model2 = load_model('my_model.keras')
+    except FileNotFoundError:
+        st.session_state.okok=False
+
+
 
 data = pd.read_csv('test.csv')
 
@@ -35,13 +44,6 @@ data = data[data['Inflight service'] != 0]
 data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
 data['Class'] = data['Class'].map({'Eco': 1, 'Eco Plus' :2,'Business': 0})
 data['Type of Travel'] = data['Type of Travel'].map({'Personal Travel':1, 'Business travel':0})
-    #label_encoder = LabelEncoder()
-    #data['Class'] = label_encoder.fit_transform(data['Class'])
-    #le_Class_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
-    #data['Type of Travel'] = label_encoder.fit_transform(data['Type of Travel'])
-    #le_TypeOfTravel_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
-
-
 y_test= data["satisfaction"]
 X_test = data.drop('satisfaction', axis=1)
 
@@ -87,9 +89,8 @@ le_TypeOfTravel_mapping = {'Personal Travel':1, 'Business travel':0}
 
 
 model = st.session_state.model
+model2 = st.session_state.model2
 y_pred = model.predict(X_test)
-
-model2 = load_model('my_model.keras')
 
 y_pred_prob2 = model.predict(X_test) 
 y_pred2 = (y_pred_prob2 >= 0.5).astype(int)
