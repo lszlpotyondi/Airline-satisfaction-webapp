@@ -142,11 +142,11 @@ if prediction_prob2 >= 0.5:
     prediction=1
 else:
     prediction2=0
-    
-predicted_satisfaction = prediction_dict[prediction[0]]
-predicted_satisfaction2 = prediction_dict[prediction2[0]]
 
-st.write(f'RandomForest Prediction: {prediction_dict[prediction[0]]}')
+predicted_satisfaction = prediction_dict[prediction]
+predicted_satisfaction2 = prediction_dict[prediction2]
+
+st.write(f'RandomForest Prediction: {predicted_satisfaction}')
 accuracy = accuracy_score(y_test, y_pred)
 st.write(f'Accuracy: {accuracy:.4f}')
 
