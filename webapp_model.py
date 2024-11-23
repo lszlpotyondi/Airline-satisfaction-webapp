@@ -22,7 +22,7 @@ data = pd.read_csv('test.csv')
 data = data.drop(['Unnamed: 0','id','Gender','Customer Type','Age','Flight Distance','Departure/Arrival time convenient','Ease of Online booking','Gate location','Food and drink','On-board service','Leg room service','Checkin service','Departure Delay in Minutes','Arrival Delay in Minutes'], axis=1)
 
 data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
-data['Class'] = data['Class'].map({'Eco': 0, 'Eco Plus' :1,'Business': 2})
+data['Class'] = data['Class'].map({'Eco': 1, 'Eco Plus' :2,'Business': 0})
 data['Type of Travel'] = data['Type of Travel'].map({'Personal Travel':1, 'Business travel':0})
     #label_encoder = LabelEncoder()
     #data['Class'] = label_encoder.fit_transform(data['Class'])
@@ -47,7 +47,7 @@ if st.session_state.done == 0:
 
 
     data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
-    data['Class'] = data['Class'].map({'Eco': 0, 'Eco Plus' :1,'Business': 2})
+    data['Class'] = data['Class'].map({'Eco': 1, 'Eco Plus' :2,'Business': 0})
     data['Type of Travel'] = data['Type of Travel'].map({'Personal Travel':1, 'Business travel':0})
     
 
@@ -64,7 +64,7 @@ if st.session_state.done == 0:
     joblib.dump(st.session_state.model, "random_forest_model.pkl")
     st.session_state.done = 1
 
-le_Class_mapping = {'Eco': 0, 'Eco Plus' :1,'Business': 2}
+le_Class_mapping = {'Eco': 1, 'Eco Plus' :2,'Business': 0}
 le_TypeOfTravel_mapping = {'Personal Travel':1, 'Business travel':0}
 model = st.session_state.model
 y_pred = model.predict(X_test)
