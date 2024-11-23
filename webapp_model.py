@@ -20,7 +20,7 @@ data = pd.read_csv('test.csv')
 
     #'Online boarding', 'Class', 'Type of Travel', 'Inflight entertainment', 'Seat comfort', 'Cleanliness', 'Inflight wifi service', 'Baggage handling', 'Inflight service'
 data = data.drop(['Unnamed: 0','id','Gender','Customer Type','Age','Flight Distance','Departure/Arrival time convenient','Ease of Online booking','Gate location','Food and drink','On-board service','Leg room service','Checkin service','Departure Delay in Minutes','Arrival Delay in Minutes'], axis=1)
-l#abel_encoder = LabelEncoder()
+#label_encoder = LabelEncoder()
 
 data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
 data['Class'] = data['Class'].map({'Eco': 0, 'Eco Plus' :1,'Business': 2})
@@ -55,7 +55,7 @@ if st.session_state.done == 0:
     #'Online boarding', 'Class', 'Type of Travel', 'Inflight entertainment', 'Seat comfort', 'Cleanliness', 'Inflight wifi service', 'Baggage handling', 'Inflight service'
     data = data.drop(['Unnamed: 0','id','Gender','Customer Type','Age','Flight Distance','Departure/Arrival time convenient','Ease of Online booking','Gate location','Food and drink','On-board service','Leg room service','Checkin service','Departure Delay in Minutes','Arrival Delay in Minutes'], axis=1)
 
-    label_encoder = LabelEncoder()
+    #label_encoder = LabelEncoder()
 
     data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
     data['Class'] = data['Class'].map({'Eco': 0, 'Eco Plus' :1,'Business': 2})
