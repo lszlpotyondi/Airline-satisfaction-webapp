@@ -42,10 +42,9 @@ for class_label, group in data.groupby('satisfaction'):
 balanced_df = pd.concat(balanced_samples).reset_index(drop=True)
 
 y= balanced_df["satisfaction"]
-#balanced_df.drop('Introversion Score', axis=1)
 X = balanced_df.drop('satisfaction', axis=1)
 
-X_train, X_test, y_train, y_test= train_test_split(X,y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test= train_test_split(X,y, test_size=0.2)
 
 if st.session_state.done == 0:
     model = RandomForestClassifier(n_estimators=100,max_depth=None)
