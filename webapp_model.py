@@ -56,7 +56,7 @@ if st.session_state.done == 0:
     #le_TypeOfTravel_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
 
     #balanced sample:
-    target_count = 250
+    target_count = 250000000
     balanced_samples = []
 
     for class_label, group in data.groupby('satisfaction'):
