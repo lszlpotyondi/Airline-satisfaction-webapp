@@ -79,7 +79,7 @@ if st.session_state.done == 0:
     y= balanced_df["satisfaction"]
     X = balanced_df.drop('satisfaction', axis=1)
 
-    X_train, X_test, y_train, y_test= train_test_split(X,y, test_size=0.2)
+    X_train, X_test, y_train, y_test= train_test_split(X,y, test_size=0.2, random_state=42)
 
 
 
