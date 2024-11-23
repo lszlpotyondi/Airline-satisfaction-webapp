@@ -2,7 +2,8 @@
 #python -m streamlit run webapp_model.py
 import sklearn as sk
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
+import tensorflow as tf 
+from tensorflow.keras.models import load_model
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
@@ -81,8 +82,14 @@ if st.session_state.done == 0:
 
 le_Class_mapping = {'Eco': 1, 'Eco Plus' :2,'Business': 0}
 le_TypeOfTravel_mapping = {'Personal Travel':1, 'Business travel':0}
+
+
+
 model = st.session_state.model
 y_pred = model.predict(X_test)
+
+model2 = load_model('my_model.keras')
+y_pred2 = model2.predict(X_test)
 
 prediction_dict = ['Neutral or dissatisfied','Satisfied']
 
@@ -127,11 +134,17 @@ df = pd.DataFrame(df)
 
 #ai gondolkodik és kitalálja hogy:
 prediction = model.predict(df)
+prediction2 = model2.predict(df)
 predicted_satisfaction = prediction_dict[prediction[0]]
+predicted_satisfaction2 = prediction_dict[prediction2[0]]
 
-st.write(f'Prediction: {prediction_dict[prediction[0]]}')
+st.write(f'RandomForest Prediction: {prediction_dict[prediction[0]]}')
 accuracy = accuracy_score(y_test, y_pred)
 st.write(f'Accuracy: {accuracy:.4f}')
+
+st.write(f'DeepLearning Prediction: {predicted_satisfaction2}')
+accuracy2 = accuracy_score(y_test, y_pred2)
+st.write(f'Accuracy: {accuracy2:.4f}')
 
 if st.button(f'More detailed description of {predicted_satisfaction}'):
     st.session_state.satisfaction_selected = predicted_satisfaction
