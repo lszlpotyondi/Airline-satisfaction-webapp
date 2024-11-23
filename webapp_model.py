@@ -54,7 +54,7 @@ X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=
 
 
 if st.session_state.done == 0:
-    model = RandomForestClassifier(n_estimators=1000, max_depth=200)
+    model = RandomForestClassifier()
     st.session_state.model = model.fit(X_train, y_train)
     joblib.dump(st.session_state.model, "random_forest_model.pkl")
     st.session_state.done = 1
