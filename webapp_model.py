@@ -59,7 +59,7 @@ if st.session_state.done == 0:
 
 
 
-    model = RandomForestClassifier(n_estimators=1000,max_depth=200)
+    model = RandomForestClassifier(n_estimators=1000,max_depth=20)
     st.session_state.model = model.fit(X_train, y_train)
     joblib.dump(st.session_state.model, "random_forest.pkl")
     st.session_state.done = 1
