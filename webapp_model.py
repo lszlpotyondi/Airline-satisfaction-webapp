@@ -47,8 +47,8 @@ if st.session_state.done == 0:
 
 
     data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
-    data['Class'] = data['Class'].map({'Eco': 0, 'Eco Plus' :1,'Business': 2})
-    data['Type of Travel'] = data['Type of Travel'].map({'Personal Travel':0, 'Business travel':1})
+    data['Class'] = data['Class'].map({'Eco': 1, 'Eco Plus' :2,'Business': 0})
+    data['Type of Travel'] = data['Type of Travel'].map({'Personal Travel':1, 'Business travel':0})
     
 
     y= data['satisfaction']
