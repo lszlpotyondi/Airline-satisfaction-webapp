@@ -142,8 +142,8 @@ prediction2 = 0
 if prediction_prob2 >= 0.5:
     prediction2=1
 
-predicted_satisfaction = prediction_dict[prediction]
-predicted_satisfaction2 = prediction_dict[prediction2]
+predicted_satisfaction = prediction_dict[prediction[0]]
+predicted_satisfaction2 = prediction_dict[prediction2[0]]
 
 st.write(f'RandomForest Prediction: {predicted_satisfaction}')
 accuracy = accuracy_score(y_test, y_pred)
