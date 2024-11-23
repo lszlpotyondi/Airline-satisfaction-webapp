@@ -49,29 +49,13 @@ if st.session_state.done == 0:
     data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
     data['Class'] = data['Class'].map({'Eco': 0, 'Eco Plus' :1,'Business': 2})
     data['Type of Travel'] = data['Type of Travel'].map({'Personal Travel':0, 'Business travel':1})
-    #label_encoder = LabelEncoder()
-    #data['Class'] = label_encoder.fit_transform(data['Class'])
-    #le_Class_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
-    #data['Type of Travel'] = label_encoder.fit_transform(data['Type of Travel'])
-    #le_TypeOfTravel_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
+    
 
-    #balanced sample:
-    #target_count = 250000000
-    #balanced_samples = []
-#
-    #for class_label, group in data.groupby('satisfaction'):
-    #    sample_size = min(len(group), target_count)
-    #    balanced_samples.append(group.sample(n=sample_size, random_state=42))
-#
-    #balanced_df = pd.concat(balanced_samples).reset_index(drop=True)
-#
-    #y= balanced_df["satisfaction"]
-    #X = balanced_df.drop('satisfaction', axis=1)
     y= data['satisfaction']
     X= data.drop['satisfaction']
 
 
-    X_train, X_test, y_train, y_test= train_test_split(X,y, test_size=0.2)
+    X_train, X_test, y_train, y_test= train_test_split(X,y, test_size=0.2, random_state=5)
 
 
 
