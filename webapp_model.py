@@ -56,17 +56,20 @@ if st.session_state.done == 0:
     #le_TypeOfTravel_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
 
     #balanced sample:
-    target_count = 250000000
-    balanced_samples = []
+    #target_count = 250000000
+    #balanced_samples = []
+#
+    #for class_label, group in data.groupby('satisfaction'):
+    #    sample_size = min(len(group), target_count)
+    #    balanced_samples.append(group.sample(n=sample_size, random_state=42))
+#
+    #balanced_df = pd.concat(balanced_samples).reset_index(drop=True)
+#
+    #y= balanced_df["satisfaction"]
+    #X = balanced_df.drop('satisfaction', axis=1)
+    y= data['satisfaction']
+    X= data.drop['satisfaction']
 
-    for class_label, group in data.groupby('satisfaction'):
-        sample_size = min(len(group), target_count)
-        balanced_samples.append(group.sample(n=sample_size, random_state=42))
-
-    balanced_df = pd.concat(balanced_samples).reset_index(drop=True)
-
-    y= balanced_df["satisfaction"]
-    X = balanced_df.drop('satisfaction', axis=1)
 
     X_train, X_test, y_train, y_test= train_test_split(X,y, test_size=0.2)
 
