@@ -16,6 +16,36 @@ if 'model' not in st.session_state:
     except FileNotFoundError:
         st.session_state.done = 0
 
+data = pd.read_csv('train.csv')
+
+    #'Online boarding', 'Class', 'Type of Travel', 'Inflight entertainment', 'Seat comfort', 'Cleanliness', 'Inflight wifi service', 'Baggage handling', 'Inflight service'
+data = data.drop(['Unnamed: 0','id','Gender','Customer Type','Age','Flight Distance','Departure/Arrival time convenient','Ease of Online booking','Gate location','Food and drink','On-board service','Leg room service','Checkin service','Departure Delay in Minutes','Arrival Delay in Minutes'], axis=1)
+label_encoder = LabelEncoder()
+
+data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
+data['Class'] = data['Class'].map({'Eco': 0, 'Eco Plus' :1,'Business': 2})
+data['Type of Travel'] = data['Type of Travel'].map({'Personal Travel':0, 'Business travel':1})
+    #label_encoder = LabelEncoder()
+    #data['Class'] = label_encoder.fit_transform(data['Class'])
+    #le_Class_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
+    #data['Type of Travel'] = label_encoder.fit_transform(data['Type of Travel'])
+    #le_TypeOfTravel_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
+
+    #balanced sample:
+target_count = 250
+balanced_samples = []
+
+for class_label, group in data.groupby('satisfaction'):
+    sample_size = min(len(group), target_count)
+    balanced_samples.append(group.sample(n=sample_size, random_state=42))
+
+    balanced_df = pd.concat(balanced_samples).reset_index(drop=True)
+
+y= balanced_df["satisfaction"]
+X = balanced_df.drop('satisfaction', axis=1)
+
+X_train, X_test, y_train, y_test= train_test_split(X,y, test_size=0.2)
+
 
 
 
