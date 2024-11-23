@@ -30,10 +30,9 @@ data['Type of Travel'] = data['Type of Travel'].map({'Personal Travel':1, 'Busin
     #data['Type of Travel'] = label_encoder.fit_transform(data['Type of Travel'])
     #le_TypeOfTravel_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
 
-    #balanced sample:
 
 y_test= data["satisfaction"]
-X_test = data('satisfaction', axis=1)
+X_test = data.drop('satisfaction', axis=1)
 
 
 
@@ -57,7 +56,7 @@ if st.session_state.done == 0:
     #le_TypeOfTravel_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
 
     #balanced sample:
-    target_count = 25000
+    target_count = 250
     balanced_samples = []
 
     for class_label, group in data.groupby('satisfaction'):
