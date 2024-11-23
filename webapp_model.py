@@ -92,7 +92,7 @@ model = st.session_state.model
 model2 = st.session_state.model2
 y_pred = model.predict(X_test)
 
-y_pred_prob2 = model.predict(X_test) 
+y_pred_prob2 = model2.predict(X_test) 
 y_pred2 = (y_pred_prob2 >= 0.5).astype(int)
 prediction_dict = ['Neutral or dissatisfied','Satisfied']
 
