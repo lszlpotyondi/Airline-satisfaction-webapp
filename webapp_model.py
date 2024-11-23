@@ -11,7 +11,7 @@ import streamlit as st
 
 if 'model' not in st.session_state:
     try:
-        st.session_state.model = joblib.load("random_forest_model.pkl")
+        st.session_state.model = joblib.load("random_forest.pkl")
         st.session_state.done = 1
     except FileNotFoundError:
         st.session_state.done = 0
@@ -61,7 +61,7 @@ if st.session_state.done == 0:
 
     model = RandomForestClassifier(n_estimators=1000,max_depth=200)
     st.session_state.model = model.fit(X_train, y_train)
-    joblib.dump(st.session_state.model, "random_forest_model.pkl")
+    joblib.dump(st.session_state.model, "random_forest.pkl")
     st.session_state.done = 1
 
 le_Class_mapping = {'Eco': 1, 'Eco Plus' :2,'Business': 0}
