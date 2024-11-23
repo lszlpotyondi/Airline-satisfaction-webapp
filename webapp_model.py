@@ -138,9 +138,9 @@ df = pd.DataFrame(df)
 #ai gondolkodik és kitalálja hogy:
 prediction = model.predict(df)
 prediction_prob2 = model2.predict(df) 
-prediction2 = 0
+prediction2 = [0]
 if prediction_prob2 >= 0.5:
-    prediction2=1
+    prediction2[0]=1
 
 predicted_satisfaction = prediction_dict[prediction[0]]
 predicted_satisfaction2 = prediction_dict[prediction2[0]]
