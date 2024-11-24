@@ -11,9 +11,45 @@ from sklearn.metrics import accuracy_score
 import joblib
 import streamlit as st
 
+
+if 'test_data' not in st.session_state:
+    try:
+        
+        data = pd.read_csv('test.csv')
+
+        #'Online boarding', 'Class', 'Type of Travel', 'Inflight entertainment', 'Seat comfort', 'Cleanliness', 'Inflight wifi service', 'Baggage handling', 'Inflight service'
+        data = data.drop(['Unnamed: 0','id','Gender','Customer Type','Age','Flight Distance','Departure/Arrival time convenient','Ease of Online booking','Gate location','Food and drink','On-board service','Leg room service','Checkin service','Departure Delay in Minutes','Arrival Delay in Minutes'], axis=1)
+        data = data[data['Online boarding'] != 0]
+        data = data[data['Inflight entertainment'] != 0]
+        data = data[data['Seat comfort'] != 0]
+        data = data[data['Cleanliness'] != 0]
+        data = data[data['Inflight wifi service'] != 0]
+        data = data[data['Baggage handling'] != 0]
+        data = data[data['Inflight service'] != 0]
+
+
+
+        data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
+        data['Class'] = data['Class'].map({'Eco': 1, 'Eco Plus' :2,'Business': 0})
+        data['Type of Travel'] = data['Type of Travel'].map({'Personal Travel':1, 'Business travel':0})
+        
+        st.session_state.test_data = data
+        
+    except FileNotFoundError:
+        st.session_state.done = 0
+
+
+
 if 'model' not in st.session_state:
     try:
-        st.session_state.model = joblib.load("random_forest.pkl")
+        model=joblib.load("random_forest.pkl")
+        st.session_state.model = model
+        data = st.session_state.test_data
+        y_test= data['satisfaction']
+        X_test = data.drop('satisfaction', axis=1)
+        y_pred = model.predict(X_test)
+
+        st.session_state.acc= accuracy_score(y_test, y_pred)
 
         st.session_state.done = 1
     except FileNotFoundError:
@@ -21,31 +57,27 @@ if 'model' not in st.session_state:
 
 if 'model2' not in st.session_state:
     try:
-        st.session_state.model2 = load_model('my_model.keras')
+        data = st.session_state.test_data
+        y_test= data['satisfaction']
+        X_test = data.drop('satisfaction', axis=1)
+        y_pred = model.predict(X_test)
+
+        model2= load_model('my_model.keras')
+        st.session_state.model2 = model2
+        y_pred_prob2 = model2.predict(X_test) 
+        y_pred2 = (y_pred_prob2 >= 0.5).astype(int)
+        st.session_state.acc2= accuracy_score(y_test, y_pred2)
+
+
+        
+
+
+
     except FileNotFoundError:
         st.session_state.okok=False
 
 
 
-data = pd.read_csv('test.csv')
-
-    #'Online boarding', 'Class', 'Type of Travel', 'Inflight entertainment', 'Seat comfort', 'Cleanliness', 'Inflight wifi service', 'Baggage handling', 'Inflight service'
-data = data.drop(['Unnamed: 0','id','Gender','Customer Type','Age','Flight Distance','Departure/Arrival time convenient','Ease of Online booking','Gate location','Food and drink','On-board service','Leg room service','Checkin service','Departure Delay in Minutes','Arrival Delay in Minutes'], axis=1)
-data = data[data['Online boarding'] != 0]
-data = data[data['Inflight entertainment'] != 0]
-data = data[data['Seat comfort'] != 0]
-data = data[data['Cleanliness'] != 0]
-data = data[data['Inflight wifi service'] != 0]
-data = data[data['Baggage handling'] != 0]
-data = data[data['Inflight service'] != 0]
-
-
-
-data['satisfaction'] = data['satisfaction'].map({'neutral or dissatisfied': 0, 'satisfied': 1})
-data['Class'] = data['Class'].map({'Eco': 1, 'Eco Plus' :2,'Business': 0})
-data['Type of Travel'] = data['Type of Travel'].map({'Personal Travel':1, 'Business travel':0})
-y_test= data["satisfaction"]
-X_test = data.drop('satisfaction', axis=1)
 
 
 
@@ -79,8 +111,18 @@ if st.session_state.done == 0:
 
 
     model = RandomForestClassifier(n_estimators=100,max_depth=20)
-    st.session_state.model = model.fit(X_train, y_train)
+    model = model.fit(X_train, y_train)
+    st.session_state.model = model
     joblib.dump(st.session_state.model, "random_forest.pkl")
+
+    data = st.session_state.test_data
+    y_test= data['satisfaction']
+    X_test = data.drop('satisfaction', axis=1)
+    y_pred = model.predict(X_test)
+
+    st.session_state.acc= accuracy_score(y_test, y_pred)
+
+
     st.session_state.done = 1
 
 le_Class_mapping = {'Eco': 1, 'Eco Plus' :2,'Business': 0}
@@ -88,12 +130,6 @@ le_TypeOfTravel_mapping = {'Personal Travel':1, 'Business travel':0}
 
 
 
-model = st.session_state.model
-model2 = st.session_state.model2
-y_pred = model.predict(X_test)
-
-y_pred_prob2 = model2.predict(X_test) 
-y_pred2 = (y_pred_prob2 >= 0.5).astype(int)
 prediction_dict = ['Neutral or dissatisfied','Satisfied']
 
 personality_descriptions = {
@@ -133,11 +169,12 @@ df = {
 }
 df = pd.DataFrame(df)
 
-
+model = st.session_state.model
+model2 = st.session_state.model2
 
 #ai gondolkodik és kitalálja hogy:
 prediction = model.predict(df)
-prediction_prob2 = model2.predict(df) 
+prediction_prob2 = model2.predict(df)
 prediction2 = [0]
 if prediction_prob2 >= 0.5:
     prediction2[0]=1
@@ -146,11 +183,11 @@ predicted_satisfaction = prediction_dict[prediction[0]]
 predicted_satisfaction2 = prediction_dict[prediction2[0]]
 
 st.write(f'RandomForest Prediction: {predicted_satisfaction}')
-accuracy = accuracy_score(y_test, y_pred)
+accuracy = st.session_state.acc
 st.write(f'Accuracy: {accuracy:.4f}')
 
 st.write(f'DeepLearning Prediction: {predicted_satisfaction2}')
-accuracy2 = accuracy_score(y_test, y_pred2)
+accuracy2 = st.session_state.acc2
 st.write(f'Accuracy: {accuracy2:.4f}')
 
 if st.button(f'More detailed description of {predicted_satisfaction}'):
