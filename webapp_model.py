@@ -60,8 +60,7 @@ if 'model2' not in st.session_state:
         data = st.session_state.test_data
         y_test= data['satisfaction']
         X_test = data.drop('satisfaction', axis=1)
-        y_pred = model.predict(X_test)
-
+        
         model2= load_model('my_model.keras')
         st.session_state.model2 = model2
         y_pred_prob2 = model2.predict(X_test) 
